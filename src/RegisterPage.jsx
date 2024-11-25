@@ -1,9 +1,16 @@
 import React from 'react';
 // relevant imports from formik
 import { Formik, Field, Form } from 'formik';
+import axios from 'axios';
 import * as Yup from 'yup';
+import { useLocation } from 'wouter';
 
 function RegisterPage() {
+
+    // useLocation returns two value
+    // first parameter: location => the current route URL
+    // second parameter: setLocation => allow us to set the location
+    const [location,setLocation]= useLocation();
 
     // creater a Yup schema for validation
     const validationSchema = Yup.object ({
@@ -29,10 +36,21 @@ function RegisterPage() {
     // 2. handle the form being submitted -- will be called by Formik when the user presses the submit button.
     // parameter 1: the values from the form (an object containing all the data in the form, like req.body)
     // parameter 2: an object, known as the formikHelpers, has a number of utility functions
-    const handleSubmit = (values, formikHelpers) => {
-        console.log(values);
+    const handleSubmit = async (values, formikHelpers) => {
+        
+        try {
+            
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/register`, values);
         formikHelpers.setSubmitting(false); // indicate the form is not being submitted
         // (i.e we have processed the form) 
+
+        } catch (e) {
+            alert("Error Registration = " + e);
+        } finally {
+            // the finally block of a try... catch will always run  regardless if there's any exception at all
+            setLocation("/"); // go back to a the / route
+        }
+
     };
 
 
