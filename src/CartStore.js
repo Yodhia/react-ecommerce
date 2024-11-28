@@ -42,21 +42,21 @@ export const useCart = () => {
 
   const modifyQuantity = (product_id, quantity) => {
     setCart((currentCart) => {
-      const existingItemIndex = currentCart.findIndex(item => item.product_id === product.id);
-      if (existingItemIndex !== 1) {
+      const existingItemIndex = currentCart.findIndex(item => item.product_id === product_id);
+      if (existingItemIndex !== -1) {
 
         // check if the quantity will be reduced to 0 or less, id so remove the item
-        if (quantity <0) {
-          return currentCart.filter(item => item.product_id !== product.id);
+        if (quantity <= 0) {
+          return currentCart.filter(item => item.product_id !== product_id);
         } else {
-          return currentCart.setIn ([existingItemIndex, 'quantity'], quantity);
+          return currentCart.setIn([existingItemIndex, 'quantity'], quantity);
         }
       }
     }) 
   }
 
   const removeFromCart = (product_id) => {
-    setCart((curentCart) => {
+    setCart((currentCart) => {
       return currentCart.filter(item => item.product_id !== product_id);
     })
   }

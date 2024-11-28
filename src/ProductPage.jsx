@@ -6,14 +6,15 @@ export default function ProductPage() {
 
   const [products, setProducts] = useState([]);
 
+
   useEffect(() => {
 
     // The effect function cannot be async
     const loadData = async () => {
-      // all URLs to static assets will be relative to public
-      const response = await axios.get("products.json");
+  
+        // all URLs to static assets will be relative to public
+      const response = await axios.get("/products.json");
       setProducts(response.data);
-
     }
     loadData();
   }, [])
